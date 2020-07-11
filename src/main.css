@@ -1,0 +1,201 @@
+:root {
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	--text-primary: #ffffff;
+	--text-secondary: #000000;
+	--text-tertiary: #666666;
+	--bg-primary: #ffffff;
+	--bg-secondary: #7BC2CC;
+	--inter-color: #FEDB7A;
+}
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+body{
+	color: black;
+	background-color: white;
+	margin: 0;
+	padding: 0;
+}
+body::-webkit-scrollbar{
+	width: 0.5rem;
+}
+body::-webkit-scrollbar-track{
+	background: rgba(255, 255, 255, 0.397);
+}
+
+.F {
+    justify-content: center;
+    position: relative;
+    max-width: 40rem;
+    margin: 0rem auto;
+    background: #fff;
+    width: 100%;
+	border-radius: 1px;
+	z-index: 1;
+	margin-top: 10%;
+}
+form > button{
+	margin-left: 0;
+}
+button{
+	text-align: center;
+	background-color: var(--inter-color);
+	width: 100%;
+	height: 3rem;
+  	border: none;
+	bottom: 0;
+	left: 0;
+  	cursor: pointer;
+}
+
+#card_logo{
+	margin-top: 40px;
+}
+#yourMeeting{
+	margin-top: 20px;
+}
+#yourMeeting_docName,#yourSchedule_date,#yourSchedule_time{
+	font-weight: bold;
+}
+#yourTimer{
+	font-weight: bolder;
+	font-size: 5.625rem;
+	margin-top: -10px;
+}
+#yourCall{
+	background-color: var(--inter-color);
+	width: 275px;
+	height: 80px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	bottom: 20px;
+	right: 0;
+}
+#yourCall_content{
+	display: flex;
+	align-items: center;
+}
+#yourCall_arrow{
+	margin-left: 20px;
+	width: 35px;
+	height: 35px;
+}
+#content{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.inputfile{
+	height: 27pt;
+}
+#deetForm{
+    width: 40rem;
+	height: auto;
+	/* min-height: 284px; */
+	z-index: auto;
+	background: linear-gradient(45deg, #A5E7F2,#A5E7F2, #FDE7AA);
+	/* padding: 27px */
+}
+.doctorName,.patientName{
+	padding: 7px 15px 7px 15px;
+	background-color: #D4EFF3;
+	text-align: center;
+	display: table;
+  	margin: auto;
+}
+.nameContainer{
+	/* width: 100vw; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* small */
+@media only screen and (max-width: 580px) {
+	#deetForm, #medRecFillForm{
+		box-shadow: none;
+		padding: 15px;
+		margin-right: 10px;
+		/* height: auto */
+	}
+    .question{
+        /* width: 100vh; */
+        width: 90vw;
+        /* display:inline */
+	}
+	#yourPattern{
+		width: 100vw;
+		margin-top: 10px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	button{
+		position: fixed;
+		z-index: 3;
+	}
+	.nameContainer{
+		width: 100vw;
+	}
+	#yourCall{
+		/* position: fixed;
+		bottom: 15%;
+		right: 25%;
+		left: 13%; */
+
+		position: fixed;
+    	/* center the div */
+    	right: 0;
+    	left: 0;
+    	margin-right: auto;
+    	margin-left: auto;
+    	/* give it dimensions */
+    	max-width: 275px;
+    	/* just for example presentation */
+		bottom: 15%;
+    	/* background-color: blue; */
+	}
+	#yourSchedule{
+		margin-bottom: 15px;
+	}
+	#card_logo{
+		margin-top: 15px;
+	}
+	.F{
+		margin-top: 0;
+		height: 284px
+	}
+}
+/* large */
+@media only screen and (min-width: 581px) {
+	#deetForm, #medRecFillForm{
+		/* box-shadow: 4px 4px 20px rgba(136, 215, 225, 0.25), -4px -4px 20px rgba(136, 215, 225, 0.25); */
+		padding: 27px;
+		padding-top: 0px;
+		min-height: 21rem;
+    }
+	.F{
+        display: flex;
+        width: 75vw;
+        padding: 0rem 0rem 0;
+	}
+	form{
+  		flex-direction: column;
+  		display: flex;
+	}
+    button{
+        position: relative;
+		width: 100%;
+	}
+	.nameContainer{
+		width: 100%;
+	}
+	#yourPattern{
+		display: none;
+	}
+}
