@@ -1,0 +1,28 @@
+{
+  "name": "Tripura",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack && gulp"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "glob": "^7.1.6",
+    "gulp": "^4.0.2",
+    "gulp-cli": "^2.2.1",
+    "gulp-rename": "^2.0.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "crypto-js": "^4.0.0",
+    "firebase": "^7.14.3",
+    "luxon": "^1.24.1",
+    "vue": "^2.6.11",
+    "xstate": "^4.10.0"
+  }
+}

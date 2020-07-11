@@ -1,0 +1,15 @@
+#ignore node modules folder
+node_modules
+
+#ignore .swp & .swo files
+*.swp
+*.swo
+
+#ignore package lock
+package-lock.json
+
+#ignore dist folder
+dist
+
+#ignore build folder
+build
