@@ -3,10 +3,11 @@ var gulp = require("gulp");
 
 var options = { extension : 'html' } ;
 function MustacheBuilder(){
-	return gulp.src("./src/html/*.html").
+	return gulp.src("./src/html/**").
 		pipe(gulp.dest("./dist"));
 //		pipe(mustache("./src/html/varunaPages.json")).
 }
+
 
 exports.default = MustacheBuilder;
 

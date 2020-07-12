@@ -4,6 +4,7 @@
 	<meta charset='utf-8'>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href='./main.css' rel='stylesheet'>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
 	<div class="F">
@@ -18,21 +19,23 @@
 				Your Meeting with <span id="yourMeeting_docName">Dr. {{doctorName}}</span> is in:
 			</div>
 			<div id="yourTimer">
-				<span id="yourTimer_time">5</span> hours
+				<span id="yourTimer_time">{{schedule.hoursToAppt}}</span> hours
 			</div>
 			<div id="yourSchedule">
-				Scheduled for <span id="yourSchedule_date">07/11/2020</span> at <span id="yourSchedule_time">3:00am</span>
+				Scheduled for <span id="yourSchedule_date">{{schedule.date}}</span> at <span id="yourSchedule_time">{{schedule.timeOfAppt}}</span>
 			</div>
-			<div id="yourCall">
+			<a :href=`https://meet.jit.si/${jitsi.uid}`>
+			<div id="yourCall" >
 				<div id="yourCall_content">
 					Go To Meeting <img id="yourCall_arrow" src="../assets/arrow.svg">
 				</div>
 			</div>
+			</a>
 	</div>
 	<div id="yourPattern">
 		<img src="../assets/pattern.svg">
 	</div>
-	<!-- <script src='./main/main.js' defer></script> -->
+	<script src='./main.js' defer></script> 
 </body>
 
 </html>
