@@ -1,13 +1,26 @@
 console.log('begin');
 import Vue from 'vue/dist/vue.js';
-import { Machine, interpret, send, assign, actions, forwardTo} from 'xstate';
-import { authorizationMachine } from './utilityMachines.js';
-import { db, functions } from './firebaseSetup.js';
+import { Machine, interpret, send, spawn, assign, actions, forwardTo} from 'xstate';
+const {log, choose} = actions;
+import { authorizationMachine, appointmentMachine } from './utilityMachines.js';
+import { DateTime, Interval, Duration } from 'luxon';
+import { db, functions } from './firebase_setup.js';
+import Vuesax from 'vuesax'
+//import 'vuesax/dist/vuesax.css'
 
+Vue.use(Vuesax,{})
 const displayVue = new Vue({
 	el : "#deetForm",
 	data : {
-		'doctorName' : 
+		'doctorName' : '',
+		'schedule' : {
+			'date' : '',
+			'timeOfAppt' : '',
+			'hoursToAppt' : ''
+		},
+		'jitsi' : {
+			'uid' : ''
+		}
 	}
 });
 
@@ -18,18 +31,93 @@ const siteMachine = Machine({
 	states : {
 		'loading' : {
 			entry : assign({
-				'authUser' : () => spawn(authorizationMachine)
+				'authUser' : () => spawn(authorizationMachine, 'authMachine')
 			}),
 			on : {
-				'DONE' : 'fillVue'
-			}
+				'DONE' : {
+					target : 'fillVue',
+					actions : assign((context, event) => {
+						var uid = context.authUser.state.context.uid;
+						var patientDoc = db.doc(`Transactions/${uid}`).get()
+						var doctorDoc = patientDoc.then((docu) => 
+							db.doc(`Doctors/${docu.data().doctorID}`)
+							.get())
+						return {
+							patientDoc : patientDoc,
+							doctorDoc : doctorDoc,
+							uid : uid
+						}
+					})
+						
+				}
+			},
+			activities : ['loading']
 		},
 		'fillVue' : {
+			type : 'parallel',
+			states : {
+				'doctor' : {
+					entry : ['fillDocName']
+				},
+				'apptTime' : {
+					type : 'compound',
+					initial : 'loading',
+					states : {
+						'loading': {
+							entry : assign({
+								'apptTime' : (context,event) => 
+								spawn(appointmentMachine.
+								withContext({'uid' : context.uid}), 
+									'apptMachine')}),
+							on: { 'UPDATE' : 'render' }
+						},
+						'render': {
+							entry : 'fillApptTime'
+						}
 
+					}
+				},
+				'jitsiLink' : {
+					entry : 'fillJitsiLink'
+				}
+			}
+		}
 	}
 },{
+	actions : {
+		fillDocName : async (context, event) => { 
+			var patientDoc = await context.patientDoc;
+			var doctorDoc = await context.doctorDoc;
+			displayVue.doctorName = doctorDoc.data().name;
+		},
+		fillApptTime : async (context, event) => {
+			var interval = context.apptTime.state.context.interval
+			var now = context.apptTime.state.context.now
+			var hoursToAppt = Math.round(interval.start.diff(now,'hours', 0)
+				.normalize().hours)
+			displayVue.schedule = {
+				date : interval.start.toISODate(),
+				timeOfAppt : interval.start.toLocaleString(DateTime.TIME_SIMPLE), 
+				hoursToAppt: hoursToAppt
+			}
+		},
+		fillJitsiLink : async (context, event) => {
+			displayVue.jitsi.uid = context.uid
+		}
+	},
+	activities : {
+		loading : () => {
+			console.log(displayVue);
+			displayVue.$vs.loading();
+			return () => displayVue.$vs.loading.close();
+		}
+	}
 });
 
+
+var siteService = interpret(siteMachine).
+	onTransition((state) => console.log(state.value)).
+	start();
 
 
 
