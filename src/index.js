@@ -5,7 +5,10 @@ const {log, choose} = actions;
 import { authorizationMachine, appointmentMachine } from './utilityMachines.js';
 import { DateTime, Interval, Duration } from 'luxon';
 import { db, functions } from './firebase_setup.js';
+import Vuesax from 'vuesax'
+//import 'vuesax/dist/vuesax.css'
 
+Vue.use(Vuesax,{})
 const displayVue = new Vue({
 	el : "#deetForm",
 	data : {
@@ -47,7 +50,8 @@ const siteMachine = Machine({
 					})
 						
 				}
-			}
+			},
+			activities : ['loading']
 		},
 		'fillVue' : {
 			type : 'parallel',
@@ -100,8 +104,13 @@ const siteMachine = Machine({
 		fillJitsiLink : async (context, event) => {
 			displayVue.jitsi.uid = context.uid
 		}
-			
-
+	},
+	activities : {
+		loading : () => {
+			console.log(displayVue);
+			displayVue.$vs.loading();
+			return () => displayVue.$vs.loading.close();
+		}
 	}
 });
 
